@@ -13,4 +13,30 @@
 
 ``` javascript 
 let _= require ("lodash");
+
+  methods: {
+    addressInput: _.debounce(
+      function(type){
+        var url = 'http://api.map.baidu.com/place/v2/suggestion?query='+address+'&region='+address+'&output=json&ak=你的AK'
+        if(type!=''){
+          $.ajax({
+            url: url,
+            dataType: "jsonp",
+            jsonp: "callback",
+            context: document.body,
+            success: function(data) {
+              result = data.result;
+              // console.log(result)
+              if(type=='send'){
+                  _this.addressSend = data.result?data.result:''
+  
+              }else{
+                  _this.addressArrive=  data.result?data.result:''
+              }
+            }
+          });
+        }
+      },
+      500
+    ),
 ```
